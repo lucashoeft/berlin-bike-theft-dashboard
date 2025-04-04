@@ -1,0 +1,39 @@
+services:
+
+  postgres:
+    build:
+      context: postgres
+      dockerfile: Dockerfile
+    ports:
+      - "5433:5432"
+    volumes:
+      # - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready --username=postgres --dbname=berlin_bike_theft_db"]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+    restart: always
+      
+  grafana:
+    build:
+      context: grafana
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - postgres
+
+  data-loader:
+    build: ./data-loader
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: ["python", "ingest.py"]
+
+volumes:
+  grafana-data:
+  postgres-data:
