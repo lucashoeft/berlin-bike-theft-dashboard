@@ -2,6 +2,8 @@ FROM python:3.10
 
 WORKDIR /app
 
+COPY lor_planungsraeume.xlsx ./
+
 COPY ingest.py requirements.txt ./
 
 RUN pip install -r requirements.txt
