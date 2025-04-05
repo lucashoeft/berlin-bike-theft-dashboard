@@ -28,6 +28,10 @@ SET default_tablespace = '';
 SET schema 'public';
 SET default_table_access_method = heap;
 
--- CREATE USER grafanareader WITH PASSWORD 'password';
--- GRANT USAGE ON SCHEMA public TO grafanareader;
--- GRANT SELECT ON ALL TABLES IN SCHEMA public TO grafanareader;
+CREATE USER grafanareader WITH PASSWORD 'password';
+
+GRANT USAGE ON SCHEMA public TO grafanareader;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO grafanareader;
+
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public
+GRANT SELECT ON TABLES TO grafanareader;

@@ -8,10 +8,10 @@ datasources:
     access: proxy
     url: postgres:5432
     database: berlin_bike_theft_db
-    user: postgres
+    user: grafanareader
     basicAuth: false
     secureJsonData:
-      password: "postgres"
+      password: "password"
     jsonData:
       sslmode: "disable"
       tlsAuth: false
