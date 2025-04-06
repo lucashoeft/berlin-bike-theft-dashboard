@@ -29,6 +29,14 @@ def read_lor_data():
 
     return lor_df
 
+def read_geo_data():
+    """Read file about geo data"""
+    geo_df = pd.read_csv('bezirke.csv')
+
+    geo_df.columns = map(str.lower, geo_df.columns)
+
+    return geo_df
+
 def save_data_in_db(df, engine, table_name):
     """Store the LOR dataframe into the database table"""
     df.to_sql(table_name, con=engine, if_exists='replace', index=False)
@@ -41,6 +49,9 @@ def main():
 
     berlin_lor_df = read_lor_data()
     save_data_in_db(berlin_lor_df, engine, 'berlin_lor')
+
+    geo_data_df = read_geo_data()
+    save_data_in_db(geo_data_df, engine, 'geo_lor')
 
 if __name__ == "__main__":
     main()

@@ -340,7 +340,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT bez, COUNT(*) as anzahl\nFROM bike_thefts as bt\nJOIN berlin_lor as bl on bt.lor = bl.plr_id\nWHERE $__timeFilter(bt.angelegt_am)\nGROUP BY bez\nORDER BY anzahl DESC\nLIMIT 10",
+          "rawSql": "SELECT bez, COUNT(*) as anzahl\nFROM bike_thefts as bt\nJOIN berlin_lor as bl on bt.lor = bl.plr_id\nWHERE $__timeFilter(bt.angelegt_am)\nGROUP BY bez\nORDER BY anzahl DESC",
           "refId": "A",
           "select": [
             [
@@ -1570,6 +1570,149 @@
         }
       ],
       "type": "table"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 57
+      },
+      "id": 29,
+      "options": {
+        "basemap": {
+          "config": {},
+          "name": "Layer 0",
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": true,
+          "showDebug": false,
+          "showScale": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "showLegend": true,
+              "style": {
+                "color": {
+                  "fixed": "dark-green"
+                },
+                "opacity": 0.8,
+                "rotation": {
+                  "fixed": 0,
+                  "max": 360,
+                  "min": -360,
+                  "mode": "mod"
+                },
+                "size": {
+                  "field": "anzahl",
+                  "fixed": 5,
+                  "max": 20,
+                  "min": 1
+                },
+                "symbol": {
+                  "fixed": "img/icons/marker/circle.svg",
+                  "mode": "fixed"
+                },
+                "text": {
+                  "field": "bez",
+                  "fixed": "",
+                  "mode": "fixed"
+                },
+                "textConfig": {
+                  "fontSize": 12,
+                  "offsetX": 0,
+                  "offsetY": 0,
+                  "textAlign": "center",
+                  "textBaseline": "middle"
+                }
+              }
+            },
+            "location": {
+              "mode": "auto"
+            },
+            "name": "Layer 1",
+            "type": "markers"
+          }
+        ],
+        "view": {
+          "id": "coords",
+          "lat": 52.520008,
+          "lon": 13.404954,
+          "shared": false,
+          "zoom": 10
+        }
+      },
+      "pluginVersion": "8.3.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "pgds"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT bl.bez, gl.longitude, gl.latitude, COUNT(*) as anzahl\nFROM bike_thefts as bt\nJOIN berlin_lor as bl on bt.lor = bl.plr_id\nJOIN geo_lor as gl on bl.bez_id = gl.bez_id\nWHERE $__timeFilter(bt.angelegt_am)\nGROUP BY bez, longitude, latitude\nORDER BY anzahl DESC",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Karte",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "geomap"
     }
   ],
   "refresh": false,
