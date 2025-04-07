@@ -14,6 +14,10 @@ This project provides an interactive Grafana dashboard on bicycle thefts in Berl
 <img width="890" alt="" src="/assets/images/screenshot_dashboard2.png">
 </p>
 
+<p align="center">
+<img width="890" alt="" src="/assets/images/screenshot_dashboard3.png">
+</p>
+
 ### Links
 
 * [Polizei Berlin LKA St 14 – Fahrraddiebstahl in Berlin (Berlin Open Data)](https://daten.berlin.de/datensaetze/fahrraddiebstahl-in-berlin)

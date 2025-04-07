@@ -2,7 +2,7 @@ FROM python:3.10
 
 WORKDIR /app
 
-COPY lor_planungsraeume.xlsx bezirke.csv ./
+COPY /data/lor_planungsraeume.xlsx /data/bezirke.csv /data/bezirksregionen.csv /data/planungsraeume.csv /data/prognoseraeume.csv ./
 
 COPY ingest.py requirements.txt ./
 
