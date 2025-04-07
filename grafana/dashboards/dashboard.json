@@ -3,7 +3,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -21,8 +24,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 1,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
@@ -38,6 +41,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -48,8 +55,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -74,7 +80,7 @@
         ]
       },
       "gridPos": {
-        "h": 6,
+        "h": 4,
         "w": 6,
         "x": 0,
         "y": 1
@@ -85,6 +91,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "sum"
@@ -92,20 +99,23 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.3.7",
+      "pluginVersion": "11.6.0",
       "targets": [
         {
           "datasource": {
             "type": "postgres",
             "uid": "pgds"
           },
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT schadenshoehe\nFROM bike_thefts\nWHERE $__timeFilter(angelegt_am)\nORDER BY 1",
+          "rawSql": "SELECT COUNT(schadenshoehe)\nFROM bike_thefts\nWHERE $__timeFilter(angelegt_am) AND versuch = 'Nein'\nORDER BY 1",
           "refId": "A",
           "select": [
             [
@@ -117,25 +127,49 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "table": "bike_theft",
           "timeColumn": "time",
           "where": []
         }
       ],
-      "title": "Insgesamte Schadenshöhe",
-      "transformations": [],
+      "title": "Anzahl der Fahrraddiebstähle",
       "type": "stat"
     },
     {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -144,6 +178,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "smooth",
             "lineStyle": {
               "fill": "solid"
@@ -168,8 +203,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -181,8 +215,8 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
-        "w": 11,
+        "h": 8,
+        "w": 10,
         "x": 6,
         "y": 1
       },
@@ -190,14 +224,17 @@
       "options": {
         "legend": {
           "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
         },
         "tooltip": {
-          "mode": "single"
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
         }
       },
-      "pluginVersion": "8.3.7",
+      "pluginVersion": "11.6.0",
       "targets": [
         {
           "datasource": {
@@ -255,6 +292,441 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 1
+      },
+      "id": 29,
+      "options": {
+        "basemap": {
+          "config": {
+            "server": "streets",
+            "showLabels": true,
+            "theme": "auto"
+          },
+          "name": "Layer 0",
+          "opacity": 0.7,
+          "tooltip": false,
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": false,
+          "showDebug": false,
+          "showMeasure": false,
+          "showScale": false,
+          "showZoom": false
+        },
+        "layers": [
+          {
+            "config": {
+              "showLegend": false,
+              "style": {
+                "color": {
+                  "fixed": "dark-green"
+                },
+                "opacity": 0.8,
+                "rotation": {
+                  "fixed": 0,
+                  "max": 360,
+                  "min": -360,
+                  "mode": "mod"
+                },
+                "size": {
+                  "field": "anzahl",
+                  "fixed": 5,
+                  "max": 20,
+                  "min": 1
+                },
+                "symbol": {
+                  "fixed": "img/icons/marker/circle.svg",
+                  "mode": "fixed"
+                },
+                "symbolAlign": {
+                  "horizontal": "center",
+                  "vertical": "center"
+                },
+                "text": {
+                  "field": "bez",
+                  "fixed": "",
+                  "mode": "fixed"
+                },
+                "textConfig": {
+                  "fontSize": 12,
+                  "offsetX": 0,
+                  "offsetY": 0,
+                  "textAlign": "center",
+                  "textBaseline": "middle"
+                }
+              }
+            },
+            "location": {
+              "mode": "auto"
+            },
+            "name": "Layer 1",
+            "tooltip": false,
+            "type": "markers"
+          }
+        ],
+        "tooltip": {
+          "mode": "details"
+        },
+        "view": {
+          "allLayers": true,
+          "id": "coords",
+          "lat": 52.520008,
+          "lon": 13.404954,
+          "shared": false,
+          "zoom": 10
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "pgds"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT bl.bez, gl.longitude, gl.latitude, COUNT(*) as anzahl\nFROM bike_thefts as bt\nJOIN berlin_lor as bl on bt.lor = bl.plr_id\nJOIN geo_lor as gl on bl.bez_id = gl.bez_id\nWHERE $__timeFilter(bt.angelegt_am) AND versuch = 'Nein'\nGROUP BY bez, longitude, latitude\nORDER BY anzahl DESC",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Fahrraddiebstähle pro Bezirk",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "geomap"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": ""
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "schadenshoehe"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyEUR"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 5
+      },
+      "id": 30,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "pgds"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT schadenshoehe\nFROM bike_thefts\nWHERE $__timeFilter(angelegt_am) AND versuch = 'Nein'\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "bike_theft",
+          "timeColumn": "time",
+          "where": []
+        }
+      ],
+      "title": "Insgesamte Schadenshöhe",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 0,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 16,
+        "x": 0,
+        "y": 9
+      },
+      "id": 8,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.9,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "horizontal",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "pgds"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  COUNT(*), art_des_fahrrads\nFROM bike_thefts\nWHERE $__timeFilter(angelegt_am) AND versuch = 'Nein'\nGROUP BY art_des_fahrrads\nORDER BY COUNT(*) DESC",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Art des Fahrrads",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -262,16 +734,18 @@
           },
           "custom": {
             "align": "auto",
-            "displayMode": "auto",
-            "filterable": false
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -312,14 +786,16 @@
         ]
       },
       "gridPos": {
-        "h": 14,
-        "w": 7,
-        "x": 17,
-        "y": 1
+        "h": 12,
+        "w": 8,
+        "x": 16,
+        "y": 9
       },
       "id": 10,
       "options": {
+        "cellHeight": "sm",
         "footer": {
+          "countRows": false,
           "fields": "",
           "reducer": [
             "sum"
@@ -329,18 +805,19 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "8.3.7",
+      "pluginVersion": "11.6.0",
       "targets": [
         {
           "datasource": {
             "type": "postgres",
             "uid": "pgds"
           },
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT bez, COUNT(*) as anzahl\nFROM bike_thefts as bt\nJOIN berlin_lor as bl on bt.lor = bl.plr_id\nWHERE $__timeFilter(bt.angelegt_am)\nGROUP BY bez\nORDER BY anzahl DESC",
+          "rawSql": "SELECT bez, COUNT(*) as anzahl\nFROM bike_thefts as bt\nJOIN berlin_lor as bl on bt.lor = bl.plr_id\nWHERE $__timeFilter(bt.angelegt_am) AND versuch = 'Nein'\nGROUP BY bez\nORDER BY anzahl DESC",
           "refId": "A",
           "select": [
             [
@@ -352,6 +829,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "timeColumn": "time",
           "where": [
             {
@@ -366,107 +860,12 @@
       "type": "table"
     },
     {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "axisSoftMin": 0,
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineWidth": 0
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 17,
-        "x": 0,
-        "y": 7
-      },
-      "id": 8,
-      "options": {
-        "barWidth": 0.9,
-        "groupWidth": 0.7,
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "orientation": "horizontal",
-        "showValue": "auto",
-        "stacking": "none",
-        "tooltip": {
-          "mode": "single"
-        },
-        "xTickLabelRotation": 0
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "pgds"
-          },
-          "format": "table",
-          "group": [],
-          "hide": false,
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  COUNT(*), art_des_fahrrads\nFROM bike_thefts\nWHERE $__timeFilter(angelegt_am)\nGROUP BY art_des_fahrrads\nORDER BY COUNT(*) DESC",
-          "refId": "B",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "timeColumn": "time",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "title": "Art des Fahrrads",
-      "type": "barchart"
-    },
-    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 15
+        "y": 21
       },
       "id": 26,
       "panels": [],
@@ -474,6 +873,10 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -481,16 +884,18 @@
           },
           "custom": {
             "align": "auto",
-            "displayMode": "auto",
-            "filterable": false
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -543,14 +948,16 @@
         ]
       },
       "gridPos": {
-        "h": 14,
+        "h": 12,
         "w": 8,
         "x": 0,
-        "y": 16
+        "y": 22
       },
       "id": 12,
       "options": {
+        "cellHeight": "sm",
         "footer": {
+          "countRows": false,
           "fields": "",
           "reducer": [
             "sum"
@@ -560,18 +967,19 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "8.3.7",
+      "pluginVersion": "11.6.0",
       "targets": [
         {
           "datasource": {
             "type": "postgres",
             "uid": "pgds"
           },
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT bez, bzr, COUNT(*) as anzahl\nFROM bike_thefts as bt\nJOIN berlin_lor as bl on bt.lor = bl.plr_id\nWHERE $__timeFilter(bt.angelegt_am)\nGROUP BY bez, bzr\nORDER BY anzahl DESC",
+          "rawSql": "SELECT bez, bzr, COUNT(*) as anzahl\nFROM bike_thefts as bt\nJOIN berlin_lor as bl on bt.lor = bl.plr_id\nWHERE $__timeFilter(bt.angelegt_am) AND versuch = 'Nein'\nGROUP BY bez, bzr\nORDER BY anzahl DESC",
           "refId": "A",
           "select": [
             [
@@ -583,6 +991,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "timeColumn": "time",
           "where": [
             {
@@ -597,6 +1022,10 @@
       "type": "table"
     },
     {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -605,16 +1034,18 @@
           },
           "custom": {
             "align": "auto",
-            "displayMode": "auto",
-            "filterable": false
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -667,14 +1098,16 @@
         ]
       },
       "gridPos": {
-        "h": 14,
+        "h": 12,
         "w": 8,
         "x": 8,
-        "y": 16
+        "y": 22
       },
       "id": 13,
       "options": {
+        "cellHeight": "sm",
         "footer": {
+          "countRows": false,
           "fields": "",
           "reducer": [
             "sum"
@@ -684,18 +1117,19 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "8.3.7",
+      "pluginVersion": "11.6.0",
       "targets": [
         {
           "datasource": {
             "type": "postgres",
             "uid": "pgds"
           },
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT bez, plr, COUNT(*) as anzahl\nFROM bike_thefts as bt\nJOIN berlin_lor as bl on bt.lor = bl.plr_id\nWHERE $__timeFilter(bt.angelegt_am)\nGROUP BY bez, plr\nORDER BY anzahl DESC",
+          "rawSql": "SELECT bez, plr, COUNT(*) as anzahl\nFROM bike_thefts as bt\nJOIN berlin_lor as bl on bt.lor = bl.plr_id\nWHERE $__timeFilter(bt.angelegt_am) AND versuch = 'Nein'\nGROUP BY bez, plr\nORDER BY anzahl DESC",
           "refId": "A",
           "select": [
             [
@@ -707,6 +1141,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "timeColumn": "time",
           "where": [
             {
@@ -721,6 +1172,10 @@
       "type": "table"
     },
     {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -728,16 +1183,18 @@
           },
           "custom": {
             "align": "auto",
-            "displayMode": "auto",
-            "filterable": false
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -790,14 +1247,16 @@
         ]
       },
       "gridPos": {
-        "h": 14,
+        "h": 12,
         "w": 8,
         "x": 16,
-        "y": 16
+        "y": 22
       },
       "id": 11,
       "options": {
+        "cellHeight": "sm",
         "footer": {
+          "countRows": false,
           "fields": "",
           "reducer": [
             "sum"
@@ -807,18 +1266,19 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "8.3.7",
+      "pluginVersion": "11.6.0",
       "targets": [
         {
           "datasource": {
             "type": "postgres",
             "uid": "pgds"
           },
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT bez, pgr, COUNT(*) as anzahl\nFROM bike_thefts as bt\nJOIN berlin_lor as bl on bt.lor = bl.plr_id\nWHERE $__timeFilter(bt.angelegt_am)\nGROUP BY bez, pgr\nORDER BY anzahl DESC",
+          "rawSql": "SELECT bez, pgr, COUNT(*) as anzahl\nFROM bike_thefts as bt\nJOIN berlin_lor as bl on bt.lor = bl.plr_id\nWHERE $__timeFilter(bt.angelegt_am) AND versuch = 'Nein'\nGROUP BY bez, pgr\nORDER BY anzahl DESC",
           "refId": "A",
           "select": [
             [
@@ -830,6 +1290,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "timeColumn": "time",
           "where": [
             {
@@ -849,20 +1326,27 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 30
+        "y": 34
       },
       "id": 22,
       "panels": [],
-      "title": "Weitere Informationen",
+      "title": "Informationen über den Delikt",
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "axisSoftMin": 0,
@@ -873,15 +1357,20 @@
               "tooltip": false,
               "viz": false
             },
-            "lineWidth": 0
+            "lineWidth": 0,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -896,36 +1385,44 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 31
+        "y": 35
       },
       "id": 15,
       "options": {
+        "barRadius": 0,
         "barWidth": 0.98,
+        "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
           "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
         },
         "orientation": "auto",
         "showValue": "auto",
         "stacking": "none",
         "tooltip": {
-          "mode": "single"
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
         },
-        "xTickLabelRotation": 0
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
       },
+      "pluginVersion": "11.6.0",
       "targets": [
         {
           "datasource": {
             "type": "postgres",
             "uid": "pgds"
           },
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT delikt, COUNT(*)\nFROM bike_thefts\nWHERE $__timeFilter(angelegt_am)\nGROUP BY delikt\nORDER BY COUNT(*) DESC",
+          "rawSql": "SELECT delikt, COUNT(*)\nFROM bike_thefts\nWHERE $__timeFilter(angelegt_am) AND versuch = 'Nein'\nGROUP BY delikt\nORDER BY COUNT(*) DESC",
           "refId": "A",
           "select": [
             [
@@ -937,6 +1434,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "timeColumn": "time",
           "where": [
             {
@@ -951,12 +1465,19 @@
       "type": "barchart"
     },
     {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "axisSoftMin": 0,
@@ -967,15 +1488,20 @@
               "tooltip": false,
               "viz": false
             },
-            "lineWidth": 0
+            "lineWidth": 0,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -990,25 +1516,32 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 31
+        "y": 35
       },
       "id": 16,
       "options": {
+        "barRadius": 0,
         "barWidth": 0.98,
+        "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
           "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
         },
         "orientation": "auto",
         "showValue": "auto",
         "stacking": "none",
         "tooltip": {
-          "mode": "single"
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
         },
-        "xTickLabelRotation": 0
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
       },
+      "pluginVersion": "11.6.0",
       "targets": [
         {
           "datasource": {
@@ -1045,6 +1578,10 @@
       "type": "barchart"
     },
     {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1052,6 +1589,9 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "axisSoftMin": 0,
@@ -1062,15 +1602,20 @@
               "tooltip": false,
               "viz": false
             },
-            "lineWidth": 0
+            "lineWidth": 0,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -1081,38 +1626,46 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 31
+        "y": 35
       },
       "id": 27,
       "options": {
+        "barRadius": 0,
         "barWidth": 0.98,
+        "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
           "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
         },
         "orientation": "auto",
         "showValue": "auto",
         "stacking": "none",
         "text": {},
         "tooltip": {
-          "mode": "single"
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
         },
         "xTickLabelMaxLength": 80,
-        "xTickLabelRotation": 0
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
       },
+      "pluginVersion": "11.6.0",
       "targets": [
         {
           "datasource": {
             "type": "postgres",
             "uid": "pgds"
           },
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  'Einfacher Diebstahl' AS diebstahlstyp,\n  COUNT(*) AS anzahl\nFROM bike_thefts\nWHERE LOWER(erfassungsgrund) LIKE '%einfach%'\n  AND $__timeFilter(angelegt_am)\n\nUNION ALL\n\nSELECT\n  'Schwerer Diebstahl' AS diebstahlstyp,\n  COUNT(*) AS anzahl\nFROM bike_thefts\nWHERE LOWER(erfassungsgrund) LIKE '%schwer%'\n  AND $__timeFilter(angelegt_am)",
+          "rawSql": "SELECT\n  'Einfacher Diebstahl' AS diebstahlstyp,\n  COUNT(*) AS anzahl\nFROM bike_thefts\nWHERE LOWER(erfassungsgrund) LIKE '%einfach%'\n  AND $__timeFilter(angelegt_am)\n  AND versuch = 'Nein'\n  \nUNION ALL\n\nSELECT\n  'Schwerer Diebstahl' AS diebstahlstyp,\n  COUNT(*) AS anzahl\nFROM bike_thefts\nWHERE LOWER(erfassungsgrund) LIKE '%schwer%'\n  AND $__timeFilter(angelegt_am)",
           "refId": "A",
           "select": [
             [
@@ -1124,6 +1677,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "timeColumn": "time",
           "where": [
             {
@@ -1138,12 +1708,32 @@
       "type": "barchart"
     },
     {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 43
+      },
+      "id": 32,
+      "panels": [],
+      "title": "Tatzeitpunkt",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "axisSoftMin": 0,
@@ -1154,15 +1744,20 @@
               "tooltip": false,
               "viz": false
             },
-            "lineWidth": 0
+            "lineWidth": 0,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1175,38 +1770,46 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
+        "w": 12,
         "x": 0,
-        "y": 39
+        "y": 44
       },
       "id": 19,
       "options": {
+        "barRadius": 0,
         "barWidth": 0.85,
+        "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
           "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
         },
         "orientation": "auto",
         "showValue": "never",
         "stacking": "none",
         "tooltip": {
-          "mode": "single"
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
         },
-        "xTickLabelRotation": 0
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
       },
+      "pluginVersion": "11.6.0",
       "targets": [
         {
           "datasource": {
             "type": "postgres",
             "uid": "pgds"
           },
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT tatzeit_anfang_stunde, COUNT(*)\nFROM bike_thefts\nWHERE $__timeFilter(angelegt_am)\nGROUP BY tatzeit_anfang_stunde\nORDER BY tatzeit_anfang_stunde",
+          "rawSql": "SELECT tatzeit_anfang_stunde, COUNT(*)\nFROM bike_thefts\nWHERE $__timeFilter(tatzeit_anfang_datum) AND versuch = 'Nein'\nGROUP BY tatzeit_anfang_stunde\nORDER BY tatzeit_anfang_stunde",
           "refId": "A",
           "select": [
             [
@@ -1218,6 +1821,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "timeColumn": "time",
           "where": [
             {
@@ -1228,7 +1848,7 @@
           ]
         }
       ],
-      "title": "Tatzeit (Anfang)",
+      "title": "Tatzeit Anfang (Uhrzeit)",
       "transformations": [
         {
           "id": "convertFieldType",
@@ -1246,12 +1866,19 @@
       "type": "barchart"
     },
     {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "axisSoftMin": 0,
@@ -1262,15 +1889,20 @@
               "tooltip": false,
               "viz": false
             },
-            "lineWidth": 0
+            "lineWidth": 0,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1283,38 +1915,46 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 8,
-        "y": 39
+        "w": 12,
+        "x": 12,
+        "y": 44
       },
       "id": 20,
       "options": {
+        "barRadius": 0,
         "barWidth": 0.85,
+        "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
           "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
         },
         "orientation": "auto",
         "showValue": "never",
         "stacking": "none",
         "tooltip": {
-          "mode": "single"
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
         },
-        "xTickLabelRotation": 0
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
       },
+      "pluginVersion": "11.6.0",
       "targets": [
         {
           "datasource": {
             "type": "postgres",
             "uid": "pgds"
           },
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT tatzeit_ende_stunde, COUNT(*)\nFROM bike_thefts\nWHERE $__timeFilter(angelegt_am)\nGROUP BY tatzeit_ende_stunde\nORDER BY tatzeit_ende_stunde",
+          "rawSql": "SELECT tatzeit_ende_stunde, COUNT(*)\nFROM bike_thefts\nWHERE $__timeFilter(tatzeit_ende_datum) AND versuch = 'Nein'\nGROUP BY tatzeit_ende_stunde\nORDER BY tatzeit_ende_stunde",
           "refId": "A",
           "select": [
             [
@@ -1326,6 +1966,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "timeColumn": "time",
           "where": [
             {
@@ -1336,7 +1993,7 @@
           ]
         }
       ],
-      "title": "Tatzeit (Ende)",
+      "title": "Tatzeit Ende (Uhrzeit)",
       "transformations": [
         {
           "id": "convertFieldType",
@@ -1354,6 +2011,313 @@
       "type": "barchart"
     },
     {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 0,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 52
+      },
+      "id": 33,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.85,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "auto",
+        "showValue": "never",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "pgds"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "WITH tatzeit_anfang AS (\n  SELECT\n    tatzeit_anfang_datum,\n    TRIM(TO_CHAR(tatzeit_anfang_datum, 'Day')) AS wochentag, \n    EXTRACT(ISODOW FROM tatzeit_anfang_datum) AS wochentag_num\n  FROM\n    bike_thefts\n  WHERE $__timeFilter(tatzeit_anfang_datum) AND versuch = 'Nein'\n)\n\nSELECT wochentag, COUNT(wochentag) FROM tatzeit_anfang\nGROUP BY wochentag, wochentag_num\nORDER BY wochentag_num",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Tatzeit Anfang (Wochentag)",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "string",
+                "targetField": "tatzeit_anfang_stunde"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 0,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 52
+      },
+      "id": 34,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.85,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "auto",
+        "showValue": "never",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "pgds"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "WITH tatzeit_ende AS (\n  SELECT\n    tatzeit_ende_datum,\n    TRIM(TO_CHAR(tatzeit_ende_datum, 'Day')) AS wochentag, \n    EXTRACT(ISODOW FROM tatzeit_ende_datum) AS wochentag_num\n  FROM\n    bike_thefts\n  WHERE $__timeFilter(tatzeit_ende_datum) AND versuch = 'Nein'\n)\n\nSELECT wochentag, COUNT(wochentag) FROM tatzeit_ende\nGROUP BY wochentag, wochentag_num\nORDER BY wochentag_num",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Tatzeit Ende (Wochentag)",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "string",
+                "targetField": "tatzeit_anfang_stunde"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 60
+      },
+      "id": 31,
+      "panels": [],
+      "title": "Schadenshöhe",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1368,7 +2332,11 @@
               "tooltip": false,
               "viz": false
             },
-            "lineWidth": 0
+            "lineWidth": 0,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
           },
           "decimals": 0,
           "mappings": [],
@@ -1376,8 +2344,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -1386,10 +2353,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 39
+        "h": 11,
+        "w": 12,
+        "x": 0,
+        "y": 61
       },
       "id": 17,
       "options": {
@@ -1398,21 +2365,29 @@
         "combine": false,
         "legend": {
           "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
         }
       },
+      "pluginVersion": "11.6.0",
       "targets": [
         {
           "datasource": {
             "type": "postgres",
             "uid": "pgds"
           },
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT schadenshoehe\nFROM bike_thefts\nWHERE $__timeFilter(angelegt_am)\nGROUP BY schadenshoehe\nORDER BY COUNT(*) DESC",
+          "rawSql": "SELECT schadenshoehe\nFROM bike_thefts\nWHERE $__timeFilter(angelegt_am) AND versuch = 'Nein'\nGROUP BY schadenshoehe\nORDER BY COUNT(*) DESC",
           "refId": "A",
           "select": [
             [
@@ -1424,6 +2399,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "timeColumn": "time",
           "where": [
             {
@@ -1434,7 +2426,7 @@
           ]
         }
       ],
-      "title": "Schadenshöhe",
+      "title": "Verteilung der Schadenshöhe",
       "transformations": [
         {
           "id": "convertFieldType",
@@ -1447,6 +2439,10 @@
       "type": "histogram"
     },
     {
+      "datasource": {
+        "type": "postgres",
+        "uid": "pgds"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1455,16 +2451,19 @@
           },
           "custom": {
             "align": "auto",
-            "displayMode": "color-background-solid",
-            "filterable": false
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false,
+            "minWidth": 100
           },
           "mappings": [],
           "thresholds": {
             "mode": "percentage",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "yellow",
@@ -1475,7 +2474,7 @@
                 "value": 25
               },
               {
-                "color": "red",
+                "color": "#ff0000",
                 "value": 50
               }
             ]
@@ -1504,35 +2503,38 @@
         ]
       },
       "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 47
+        "h": 11,
+        "w": 12,
+        "x": 12,
+        "y": 61
       },
       "id": 18,
       "options": {
+        "cellHeight": "sm",
         "footer": {
+          "countRows": false,
           "fields": "",
           "reducer": [
             "sum"
           ],
-          "show": false
+          "show": true
         },
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "8.3.7",
+      "pluginVersion": "11.6.0",
       "targets": [
         {
           "datasource": {
             "type": "postgres",
             "uid": "pgds"
           },
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  art_des_fahrrads AS \"Art des Fahrrads\",\n  COUNT(CASE WHEN schadenshoehe <= 500 THEN 1 END) AS \"Unter 500\",\n  COUNT(CASE WHEN schadenshoehe > 500 AND schadenshoehe <= 1000 THEN 1 END) AS \"501 - 1000\",\n  COUNT(CASE WHEN schadenshoehe > 1000 AND schadenshoehe <= 1500 THEN 1 END) AS \"1001 - 1500\",\n  COUNT(CASE WHEN schadenshoehe > 1500 AND schadenshoehe <= 2000 THEN 1 END) AS \"1501 - 2000\",\n  COUNT(CASE WHEN schadenshoehe > 2000 AND schadenshoehe <= 2500 THEN 1 END) AS \"2001 - 2500\",\n  COUNT(CASE WHEN schadenshoehe > 2500 AND schadenshoehe <= 3000 THEN 1 END) AS \"2501 - 3000\",\n  COUNT(CASE WHEN schadenshoehe > 3000 AND schadenshoehe <= 3500 THEN 1 END) AS \"3001 - 3500\",\n  COUNT(CASE WHEN schadenshoehe > 3500 THEN 1 END) AS \"Über 3500\"\nFROM bike_thefts\nWHERE $__timeFilter(angelegt_am)\nGROUP BY art_des_fahrrads\nORDER BY COUNT(*) DESC",
+          "rawSql": "SELECT \n  art_des_fahrrads AS \"Art des Fahrrads\",\n  COUNT(CASE WHEN schadenshoehe <= 500 THEN 1 END) AS \"Unter 500\",\n  COUNT(CASE WHEN schadenshoehe > 500 AND schadenshoehe <= 1000 THEN 1 END) AS \"501 - 1000\",\n  COUNT(CASE WHEN schadenshoehe > 1000 AND schadenshoehe <= 1500 THEN 1 END) AS \"1001 - 1500\",\n  COUNT(CASE WHEN schadenshoehe > 1500 AND schadenshoehe <= 2000 THEN 1 END) AS \"1501 - 2000\",\n  COUNT(CASE WHEN schadenshoehe > 2000 AND schadenshoehe <= 2500 THEN 1 END) AS \"2001 - 2500\",\n  COUNT(CASE WHEN schadenshoehe > 2500 AND schadenshoehe <= 3000 THEN 1 END) AS \"2501 - 3000\",\n  COUNT(CASE WHEN schadenshoehe > 3000 AND schadenshoehe <= 3500 THEN 1 END) AS \"3001 - 3500\",\n  COUNT(CASE WHEN schadenshoehe > 3500 THEN 1 END) AS \"Über 3500\"\nFROM bike_thefts\nWHERE $__timeFilter(angelegt_am) AND versuch = 'Nein'\nGROUP BY art_des_fahrrads\nORDER BY COUNT(*) DESC",
           "refId": "A",
           "select": [
             [
@@ -1544,6 +2546,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "timeColumn": "time",
           "where": [
             {
@@ -1570,154 +2589,11 @@
         }
       ],
       "type": "table"
-    },
-    {
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 57
-      },
-      "id": 29,
-      "options": {
-        "basemap": {
-          "config": {},
-          "name": "Layer 0",
-          "type": "default"
-        },
-        "controls": {
-          "mouseWheelZoom": true,
-          "showAttribution": true,
-          "showDebug": false,
-          "showScale": false,
-          "showZoom": true
-        },
-        "layers": [
-          {
-            "config": {
-              "showLegend": true,
-              "style": {
-                "color": {
-                  "fixed": "dark-green"
-                },
-                "opacity": 0.8,
-                "rotation": {
-                  "fixed": 0,
-                  "max": 360,
-                  "min": -360,
-                  "mode": "mod"
-                },
-                "size": {
-                  "field": "anzahl",
-                  "fixed": 5,
-                  "max": 20,
-                  "min": 1
-                },
-                "symbol": {
-                  "fixed": "img/icons/marker/circle.svg",
-                  "mode": "fixed"
-                },
-                "text": {
-                  "field": "bez",
-                  "fixed": "",
-                  "mode": "fixed"
-                },
-                "textConfig": {
-                  "fontSize": 12,
-                  "offsetX": 0,
-                  "offsetY": 0,
-                  "textAlign": "center",
-                  "textBaseline": "middle"
-                }
-              }
-            },
-            "location": {
-              "mode": "auto"
-            },
-            "name": "Layer 1",
-            "type": "markers"
-          }
-        ],
-        "view": {
-          "id": "coords",
-          "lat": 52.520008,
-          "lon": 13.404954,
-          "shared": false,
-          "zoom": 10
-        }
-      },
-      "pluginVersion": "8.3.7",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "pgds"
-          },
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT bl.bez, gl.longitude, gl.latitude, COUNT(*) as anzahl\nFROM bike_thefts as bt\nJOIN berlin_lor as bl on bt.lor = bl.plr_id\nJOIN geo_lor as gl on bl.bez_id = gl.bez_id\nWHERE $__timeFilter(bt.angelegt_am)\nGROUP BY bez, longitude, latitude\nORDER BY anzahl DESC",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "timeColumn": "time",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "title": "Karte",
-      "transformations": [
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [],
-            "fields": {}
-          }
-        }
-      ],
-      "type": "geomap"
     }
   ],
+  "preload": false,
   "refresh": false,
-  "schemaVersion": 34,
-  "style": "dark",
+  "schemaVersion": 41,
   "tags": [],
   "templating": {
     "list": []
@@ -1731,5 +2607,5 @@
   "title": "Berlin Bike Theft Dashboard",
   "uid": "XZDyKc64k",
   "version": 1,
-  "weekStart": ""
+  "weekStart": "monday"
 }
