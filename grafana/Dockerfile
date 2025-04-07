@@ -1,5 +1,4 @@
-#create a granafa image with custom configuration
-FROM grafana/grafana:8.3.7
+FROM grafana/grafana:11.6.0
 
 ENV GF_AUTH_ANONYMOUS_ENABLED=true
 ENV GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
