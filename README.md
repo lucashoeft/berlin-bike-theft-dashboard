@@ -22,6 +22,7 @@ This project provides an interactive Grafana dashboard on bicycle thefts in Berl
 
 * [Polizei Berlin LKA St 14 – Fahrraddiebstahl in Berlin (Berlin Open Data)](https://daten.berlin.de/datensaetze/fahrraddiebstahl-in-berlin)
 * [Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen – Lebensweltlich orientierte Räume (LOR) in Berlin](https://www.berlin.de/sen/sbw/stadtdaten/stadtwissen/sozialraumorientierte-planungsgrundlagen/lebensweltlich-orientierte-raeume/)
+* [Berlins Open Data Informationsstelle (ODIS) – Basisdatensätze von Berlin ](https://daten.odis-berlin.de/)
 
 ### How to Use the Dashboard
 
@@ -42,4 +43,8 @@ Data Sources:
 
 Dashboard:
 * Add trends (WoW, MoM, YoY growth rates)
-* Analyze the time duration when the crime could have occurred ("Tatzeitraum")
+
+Other:
+* Store passwords in seperate .env file or as docker secrets
+* Load dataset for 2024 as fallback if open data portal is not accessible
+* Improve data loader (e.g. by using Apache Airflow instead of plain python script)

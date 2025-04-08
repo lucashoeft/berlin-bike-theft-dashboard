@@ -45,6 +45,7 @@
         "type": "postgres",
         "uid": "pgds"
       },
+      "description": "Polizeilich bekannt gewordene Fahrraddiebstähle und Keller-/Bodeneinbrüche mit einem Fahrrad als erlangtem Gut, die innerhalb des ausgewählten Zeitraums angelegt wurden. Beinhaltet keine versuchten Fahrraddiebstähle.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -157,6 +158,7 @@
         "type": "postgres",
         "uid": "pgds"
       },
+      "description": "Beinhaltet versuchte und erfolgreiche Fahrraddiebstähle.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -483,6 +485,7 @@
         "type": "postgres",
         "uid": "pgds"
       },
+      "description": "Summe der Werte des erlangten Gutes (in Euro) der Fahrraddiebstähle, die innerhalb des ausgewählten Zeitraums angelegt wurden. Die Summe enthält kein Sachschaden. Bei Kellereinbrüchen weist die Schadenshöhe nicht nur der Wert der gestohlenen Fahrräder aus, sondern inkludiert auch den Wert weiterer entwendeter Gegenstände. Beinhaltet keine versuchten Fahrraddiebstähle.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -595,6 +598,7 @@
         "type": "postgres",
         "uid": "pgds"
       },
+      "description": "Übersicht über die Fahrradtypen bei den Diebstählen, die innerhalb des ausgewählten Zeitraums angelegt wurden. Bei Entwendung mehrerer Fahrräder unterschiedlichen Typs wird der Wert „diverse Fahrräder“ ausgegeben. Beinhaltet keine versuchten Fahrraddiebstähle.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -727,6 +731,7 @@
         "type": "postgres",
         "uid": "pgds"
       },
+      "description": "Übersicht über die Fahrraddiebstähle pro Bezirk, die innerhalb des ausgewählten Zeitraums angelegt wurden. Insgesamt gibt es 12 Bezirke in Berlin. Beinhaltet keine versuchten Fahrraddiebstähle.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1435,6 +1440,7 @@
         "type": "postgres",
         "uid": "pgds"
       },
+      "description": "Übersicht über die Fahrraddiebstähle pro Prognoseraum (PGR), die innerhalb des ausgewählten Zeitraums angelegt wurden. Insgesamt gibt es 58 Prognoseräume in Berlin. Beinhaltet keine versuchten Fahrraddiebstähle.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1584,6 +1590,7 @@
         "type": "postgres",
         "uid": "pgds"
       },
+      "description": "Übersicht über die Fahrraddiebstähle pro Bezirksregion (BZR), die innerhalb des ausgewählten Zeitraums angelegt wurden. Insgesamt gibt es 143 Bezirksregionen in Berlin. Beinhaltet keine versuchten Fahrraddiebstähle.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1733,7 +1740,7 @@
         "type": "postgres",
         "uid": "pgds"
       },
-      "description": "",
+      "description": "Übersicht über die Fahrraddiebstähle pro Planungsraum (PLR), die innerhalb des ausgewählten Zeitraums angelegt wurden. Insgesamt gibt es 542 Planungsräume in Berlin. Beinhaltet keine versuchten Fahrraddiebstähle.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1896,6 +1903,7 @@
         "type": "grafana-postgresql-datasource",
         "uid": "pgds"
       },
+      "description": "Übersicht über den Tatzeitraum der Fahrraddiebstähle, die innerhalb des ausgewählten Zeitraums angelegt wurden. Beinhaltet keine versuchten Fahrraddiebstähle.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1998,6 +2006,7 @@
         "type": "postgres",
         "uid": "pgds"
       },
+      "description": "Übersicht über den Anfang der Tatzeit der Fahrraddiebstähle, die innerhalb des ausgewählten Zeitraums angelegt wurden. Beinhaltet keine versuchten Fahrraddiebstähle.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2082,7 +2091,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT tatzeit_anfang_stunde, COUNT(*)\nFROM bike_thefts\nWHERE $__timeFilter(tatzeit_anfang_datum) AND versuch = 'Nein'\nGROUP BY tatzeit_anfang_stunde\nORDER BY tatzeit_anfang_stunde",
+          "rawSql": "SELECT tatzeit_anfang_stunde, COUNT(*)\nFROM bike_thefts\nWHERE $__timeFilter(angelegt_am) AND versuch = 'Nein'\nGROUP BY tatzeit_anfang_stunde\nORDER BY tatzeit_anfang_stunde",
           "refId": "A",
           "select": [
             [
@@ -2143,6 +2152,7 @@
         "type": "postgres",
         "uid": "pgds"
       },
+      "description": "Übersicht über das Ende der Tatzeit der Fahrraddiebstähle, die innerhalb des ausgewählten Zeitraums angelegt wurden. Beinhaltet keine versuchten Fahrraddiebstähle.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2227,7 +2237,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT tatzeit_ende_stunde, COUNT(*)\nFROM bike_thefts\nWHERE $__timeFilter(tatzeit_ende_datum) AND versuch = 'Nein'\nGROUP BY tatzeit_ende_stunde\nORDER BY tatzeit_ende_stunde",
+          "rawSql": "SELECT tatzeit_ende_stunde, COUNT(*)\nFROM bike_thefts\nWHERE $__timeFilter(angelegt_am) AND versuch = 'Nein'\nGROUP BY tatzeit_ende_stunde\nORDER BY tatzeit_ende_stunde",
           "refId": "A",
           "select": [
             [
@@ -2288,6 +2298,7 @@
         "type": "postgres",
         "uid": "pgds"
       },
+      "description": "Übersicht über den Anfang der Tatzeit der Fahrraddiebstähle, die innerhalb des ausgewählten Zeitraums angelegt wurden. Beinhaltet keine versuchten Fahrraddiebstähle.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2372,7 +2383,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH tatzeit_anfang AS (\n  SELECT\n    tatzeit_anfang_datum,\n    TRIM(TO_CHAR(tatzeit_anfang_datum, 'Day')) AS wochentag, \n    EXTRACT(ISODOW FROM tatzeit_anfang_datum) AS wochentag_num\n  FROM\n    bike_thefts\n  WHERE $__timeFilter(tatzeit_anfang_datum) AND versuch = 'Nein'\n)\n\nSELECT wochentag, COUNT(wochentag) FROM tatzeit_anfang\nGROUP BY wochentag, wochentag_num\nORDER BY wochentag_num",
+          "rawSql": "WITH tatzeit_anfang AS (\n  SELECT\n    tatzeit_anfang_datum,\n    TRIM(TO_CHAR(tatzeit_anfang_datum, 'Day')) AS wochentag, \n    EXTRACT(ISODOW FROM tatzeit_anfang_datum) AS wochentag_num\n  FROM\n    bike_thefts\n  WHERE $__timeFilter(angelegt_am) AND versuch = 'Nein'\n)\n\nSELECT wochentag, COUNT(wochentag) FROM tatzeit_anfang\nGROUP BY wochentag, wochentag_num\nORDER BY wochentag_num",
           "refId": "A",
           "select": [
             [
@@ -2433,6 +2444,7 @@
         "type": "postgres",
         "uid": "pgds"
       },
+      "description": "Übersicht über das Ende der Tatzeit der Fahrraddiebstähle, die innerhalb des ausgewählten Zeitraums angelegt wurden. Beinhaltet keine versuchten Fahrraddiebstähle.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2517,7 +2529,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH tatzeit_ende AS (\n  SELECT\n    tatzeit_ende_datum,\n    TRIM(TO_CHAR(tatzeit_ende_datum, 'Day')) AS wochentag, \n    EXTRACT(ISODOW FROM tatzeit_ende_datum) AS wochentag_num\n  FROM\n    bike_thefts\n  WHERE $__timeFilter(tatzeit_ende_datum) AND versuch = 'Nein'\n)\n\nSELECT wochentag, COUNT(wochentag) FROM tatzeit_ende\nGROUP BY wochentag, wochentag_num\nORDER BY wochentag_num",
+          "rawSql": "WITH tatzeit_ende AS (\n  SELECT\n    tatzeit_ende_datum,\n    TRIM(TO_CHAR(tatzeit_ende_datum, 'Day')) AS wochentag, \n    EXTRACT(ISODOW FROM tatzeit_ende_datum) AS wochentag_num\n  FROM\n    bike_thefts\n  WHERE $__timeFilter(angelegt_am) AND versuch = 'Nein'\n)\n\nSELECT wochentag, COUNT(wochentag) FROM tatzeit_ende\nGROUP BY wochentag, wochentag_num\nORDER BY wochentag_num",
           "refId": "A",
           "select": [
             [
@@ -2591,6 +2603,7 @@
         "type": "postgres",
         "uid": "pgds"
       },
+      "description": "Übersicht über die Art der Fahrraddiebstähle, die innerhalb des ausgewählten Zeitraums angelegt wurden. Beinhaltet keine versuchten Fahrraddiebstähle.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2722,6 +2735,7 @@
         "type": "postgres",
         "uid": "pgds"
       },
+      "description": "Übersicht über die versuchten und erfolgreichen Fahrraddiebstähle, die innerhalb des ausgewählten Zeitraums angelegt wurden.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2835,7 +2849,7 @@
         "type": "postgres",
         "uid": "pgds"
       },
-      "description": "",
+      "description": "Einfache Diebstähle sind Taten gemäß §242 StGB, das Diebesgut (hier Fahrrad) war ungesichert - beim schweren Diebstahl gemäß §243 existierte eine Schutzvorrichtung  gegen  Wegnahme  bzw.  es  lag  gewerbsmäßiges Handeln vor. Beinhaltet keine versuchten Fahrraddiebstähle.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2978,7 +2992,7 @@
         "type": "postgres",
         "uid": "pgds"
       },
-      "description": "",
+      "description": "Übersicht über die Schadenshöhe der Fahrraddiebstähle, die innerhalb des ausgewählten Zeitraums angelegt wurden. Die Werte enthalten keinen Sachschaden. Bei Kellereinbrüchen weist die Schadenshöhe nicht nur der Wert der gestohlenen Fahrräder aus, sondern inkludiert auch den Wert weiterer entwendeter Gegenstände. Beinhaltet keine versuchten Fahrraddiebstähle.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3103,7 +3117,7 @@
         "type": "postgres",
         "uid": "pgds"
       },
-      "description": "",
+      "description": "Übersicht über die Schadenshöhe der Fahrraddiebstähle je nach Art des Fahrrads, die innerhalb des ausgewählten Zeitraums angelegt wurden. Die Werte enthalten keinen Sachschaden. Bei Kellereinbrüchen weist die Schadenshöhe nicht nur der Wert der gestohlenen Fahrräder aus, sondern inkludiert auch den Wert weiterer entwendeter Gegenstände. Beinhaltet keine versuchten Fahrraddiebstähle.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3249,6 +3263,71 @@
         }
       ],
       "type": "table"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 84
+      },
+      "id": 40,
+      "panels": [],
+      "title": "Quellenangabe",
+      "type": "row"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 85
+      },
+      "id": 39,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "Als Datenbasis dienen verlaufsstatische Daten aus dem Data Warehouse  Führungsinformation (DWH-FI). \n\nJe erfasster Straftat wird ein Datensatz ausgegeben. Umfasst sind alle Fahrraddiebstähle und jene Keller- und Bodeneinbrüche, zu denen mindestens ein Fahrrad als erlangtes Gut eingetragen ist. \n\nUm ein hinreichend genaue zeitliche Zuordnung zu ermöglichen werden Taten, bei denen die Differenz zwischen Tatzeitbeginn und Tatzeitende mehr als drei Tage (72 Stunden) beträgt, nicht bereitgestellt.",
+        "mode": "markdown"
+      },
+      "pluginVersion": "11.6.0",
+      "title": "Datenherkunft",
+      "type": "text"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 85
+      },
+      "id": 41,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "Die Datenerhebung wird täglich durchgeführt. \n\nSie umfasst alle Fälle die zwischen dem 1. Januar des Vorjahres und dem Vortag der Datenabfrage polizeilich registriert wurden.",
+        "mode": "markdown"
+      },
+      "pluginVersion": "11.6.0",
+      "title": "Periodizität",
+      "type": "text"
     }
   ],
   "preload": false,
